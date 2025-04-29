@@ -132,14 +132,15 @@ async function checkForUpdates(config) {
 }
 
 // Main loop
-(async () => {
-  console.log('🚀 Starting poller...');
+async function poll() {
   for (const config of configs) {
     await checkForUpdates(config);
   }
-  setInterval(async () => {
-    for (const config of configs) {
-      await checkForUpdates(config);
-    }
-  }, pollIntervalMs);
+  setTimeout(poll, pollIntervalMs);
+}
+
+
+(async () => {
+  console.log('🚀 Starting poller...');
+  await poll();
 })();
