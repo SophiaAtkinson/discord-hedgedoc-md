@@ -3,30 +3,38 @@ const fs = require('fs');
 const path = require('path');
 const dns = require('dns');
 
-// --- CONFIG ---
-const pollIntervalMs = 30 * 1000; // 30 seconds
 const configPath = path.join(__dirname, 'config.json');
 const statePath = path.join(__dirname, './data/state.json');
 const errorLogPath = path.join(__dirname, './data/error.log');
 
+// Load configs
+let rawConfigs;
+try {
+  rawConfigs = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (error) {
+  console.error('❗ Failed to load config.json: ' + error.message);
+  process.exit(1);
+}
+
+const globalSettings = rawConfigs[0] || {};
+const configs = rawConfigs.slice(1);
+
+const globalTimezone = globalSettings.timezone || 'UTC';
+const pollIntervalMs = parseInt(globalSettings.pollingRateMS || '30000');
+
+if (configs.length === 0) {
+  console.error('❗ No configs found in config.json.');
+  process.exit(1);
+}
+
 // --- ERROR LOGGER ---
 function logError(message) {
   const timestamp = new Date().toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles'
+    timeZone: globalTimezone
   });
   const line = `[${timestamp}] ${message}\n`;
   fs.appendFileSync(errorLogPath, line);
   console.error(message);
-}
-
-
-// Load configs
-let configs;
-try {
-  configs = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-} catch (error) {
-  logError('❗ Failed to load config.json: ' + error.message);
-  process.exit(1);
 }
 
 // Load or initialize global state

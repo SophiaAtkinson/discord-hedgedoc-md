@@ -1,5 +1,9 @@
 [
     {
+    "timezone": "America/Los_Angeles",
+    "pollingRateMS": "30000"
+    },
+    {
       "name": "first",
       "markdownURL": "https://example.com/s/example/download",
       "webhookURL": "https://discord.com/api/webhooks/example/example"
