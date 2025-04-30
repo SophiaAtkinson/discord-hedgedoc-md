@@ -3,7 +3,8 @@
   "version": "1.0.5",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "run": "node index.js"
   },
   "keywords": [],
   "author": "Sophia Atkinson",
@@ -11,6 +12,7 @@
   "description": "",
   "dependencies": {
     "axios": "^1.9.0",
+    "dns": "^0.2.2",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
   }

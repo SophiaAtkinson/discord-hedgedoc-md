@@ -3,3 +3,4 @@ config.json
 data/state.json
 old.js
 package-lock.json
+data/error.log
